@@ -9,6 +9,7 @@ var productsState = [
         'https://www.istore.co.za/media/catalog/product/m/a/macbook_pro_space_grey-1_2.png?format=jpeg',
     },
     {
+
       id: 2,
       name: 'Iphone 13 Pro',
       price: 23000,
@@ -66,19 +67,17 @@ var productsState = [
     },
   ]
 
+var homechoice = []
 
   // LINK JS TO HTML ELEMENT
   const products = document.getElementById('products')
+  const select = document.getElementById('select')
+  const picture = document.getElementById('picture')
 
-  var cartNumber = 0;
-  
-  function cartAdd() {
-    Silver = document.getElementById("Silver").innerHTML = ++ cartNumber;
-  }
 
   // DISPLAY PRODUCTS IN HOME PAGE
   function homeDisplayProducts() {
-      products.innerHTML = ""
+    products.innerHTML = ""
     // loop into productsState and display
     for (let i = 0; i < productsState.length; i++) {
       products.innerHTML += `
@@ -94,15 +93,68 @@ var productsState = [
                 <div class="product__rate">
                   ${'<span>*</span>'.repeat(productsState[i].rates)}
                 </div>
-                <div class="product__price">R <span>${productsState[i].price}</span></div> 
-                <button onclick="cartAdd()">+ ADD TO CART</button>
+                <div class="produ ct__price">R <span>${productsState[i].price}</span></div> 
+                <button onclick="cartAdd(${i})">+ ADD TO CART</button>
             </div>
       
       `
-
-    }
   }
+count.innerHTML = homechoice.length
+}
 
+function cartAdd(i) {
+  homechoice.push(productsState[i])
+  document.getElementById('count').innerHTML = homechoice.length;
+
+  display();
+  database();
+  homeDisplayProducts();
+}
+
+function display() {
+  select.innerHTML = ""
+// loop into productsState and display
+for (let i = 0; i <homechoice.length; i++) {
+  select.innerHTML += `
+  
+  <div class="product">
+      <div class="product__img">
+          <img
+            src=${homechoice[i].image}
+            alt=""
+          />
+      </div>
+          <div class="product__name">${homechoice[i].name}</div>
+            <div class="product__rate">
+              ${'<span>*</span>'.repeat(homechoice[i].rates)}
+            </div>
+            <div class="produ ct__price">R <span>${homechoice[i].price}</span></div> 
+            <button onclick="remove(${i})">- DELETE</button>
+        </div>
+  
+  `
+}
+
+}
+
+function remove(i) {
+  homechoice.splice(i, 1)
+  document.getElementById('count').innerHTML = homechoice.length;
+
+  display();
+  database();
+  homeDisplayProducts();
+}
+
+function database() {
+
+  let total = 0;
+
+  for (let i = 0; i < homechoice.length; i++) {
+    total += homechoice[i].price 
+  }
+  picture.innerHTML = `R${total}`
+}
 
   // CALL THE DISPLAY FUNCTION
   homeDisplayProducts()
