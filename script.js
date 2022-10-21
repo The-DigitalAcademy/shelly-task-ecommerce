@@ -109,6 +109,8 @@ function cartAdd(i) {
   display();
   database();
   homeDisplayProducts();
+  saveToLocalStorage();
+  getToLocalStorage();
 }
 
 function display() {
@@ -134,6 +136,8 @@ for (let i = 0; i <homechoice.length; i++) {
   
   `
 }
+saveToLocalStorage();
+getToLocalStorage();
 
 }
 
@@ -143,6 +147,8 @@ function remove(i) {
 
   display();
   database();
+  saveToLocalStorage();
+  getToLocalStorage();
   homeDisplayProducts();
 }
 
@@ -154,6 +160,18 @@ function database() {
     total += homechoice[i].price 
   }
   picture.innerHTML = `R${total}`
+  saveToLocalStorage();
+  getToLocalStorage();
+}
+
+function saveToLocalStorage() {
+  let show = JSON.stringify(homechoice)
+  localStorage.setItem('homechoice', show)
+}
+
+function getToLocalStorage() {
+  let show = JSON.parse(localStorage.getItem('homechoice'))
+  homechoice = show
 }
 
   // CALL THE DISPLAY FUNCTION
